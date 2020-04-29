@@ -1,6 +1,6 @@
 # Project Title
 
-A Node Webserver Project
+A Node RestFul API Project
 
 ---
 ## Requirements
