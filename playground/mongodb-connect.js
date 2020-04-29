@@ -24,7 +24,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {
     });
 
     db.collection('Users').insertOne({
-        name: 'Nosa Omorodion',
+        name: 'Fortune Omorodion',
         age: 29,
         location: 'Lagos/Africa'
     }, (err, result) => {
