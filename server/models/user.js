@@ -1,4 +1,4 @@
-const mongoose = require("../db/mongoose");
+const mongoose = require('mongoose');
 const User = mongoose.model("User", {
     name: {
         type: String,
@@ -19,20 +19,7 @@ const User = mongoose.model("User", {
     },
 });
 
-let user = new User({
-        name: "Nosa Omorodion",
-        username: "Nossy",
-        email: "nossy@gmail.com",
-    })
-    .save()
-    .then(
-        (doc) => {
-            console.log(JSON.stringify(doc, undefined, 2));
-        },
-        (e) => {
-            console.log("Unable to save user", e);
-        }
-    );
+
 
 
 module.exports = (User)
