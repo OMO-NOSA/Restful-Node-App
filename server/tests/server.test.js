@@ -1,5 +1,5 @@
 const expect = require('expect');
-const request = require('request');
+const request = require('supertest');
 const { app } = require('./../server');
 const { Todo } = require('./../models/todo');
 
@@ -35,7 +35,7 @@ describe('POST /todos', () => {
     it('should not create a todo with invalid test data', (done) => {
         request(app)
             .post('/todos')
-            .send({ text })
+            .send({})
             .expect(400)
             .end((err, res) => {
                 if (err) {
