@@ -13,16 +13,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.post('/todos', (req, res) => {
-    console.log(req.body);
     const todo = new Todo({
         text: req.body.text
     });
 
     todo.save().then((doc) => {
-        console.log(doc);
         res.send(doc);
     }, (e) => {
-        console.log(e);
         res.status(400).send(e);
     });
 });
