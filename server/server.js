@@ -40,13 +40,17 @@ app.get('/todos/:id', (req, res) => {
             message: 'Id not Valid'
         })
     }
-    Todo.findById(id).then((todo) => {
-        res.status(200).send(todo)
-    }).catch((e) => {
-        res.status(400).send(e)
-    });
+    Todo.findById(id)
+        .then((todo) => {
+            if (!todo) {
+                return res.status(404).send();
+            }
+            res.status(200).send({ todo });
+        })
+        .catch((e) => {
+            res.status(400).send();
+        });
 });
-
 app.listen(port, () =>
     console.log(`Server is listening at http://localhost:${port}`)
 );

@@ -93,13 +93,13 @@ describe('GET /todos/:id', () => {
             .expect(200)
             .expect((res) => {
                 expect(res.body.todo.text).toBe(todos[0].text);
+                console.log(res.body.todo.text);
             })
             .end(done);
     });
 
     it('should return 404 if todo not found', (done) => {
         var hexId = new ObjectID().toHexString();
-        console.log(hexId);
         request(app)
             .get(`/todos/${hexId}`)
             .expect(404)
