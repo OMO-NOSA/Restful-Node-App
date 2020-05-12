@@ -98,6 +98,17 @@ app.delete("/todos/:id", (req, res) => {
         });
 });
 
+app.post("/users", (req, res) => {
+    let body = _.pick(req.body, ['name', 'email', 'password']);
+    let user = new Todo(body);
+
+    user.save().then(
+        (user) => {
+            res.send(user);
+        }).catch((e) => {
+        res.status(400).send(e);
+    });
+});
 
 app.listen(port, () =>
     console.log(`Server is listening at http://localhost:${port}`)
