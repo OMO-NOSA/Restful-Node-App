@@ -103,9 +103,12 @@ app.post("/users", (req, res) => {
     let user = new Todo(body);
 
     user.save().then(
-        (user) => {
-            res.send(user);
-        }).catch((e) => {
+        () => {
+            return user.generateAuthToken();
+
+        }).then((token) => {
+        res.header('x-auth', token).send(user);
+    }).catch((e) => {
         res.status(400).send(e);
     });
 });
