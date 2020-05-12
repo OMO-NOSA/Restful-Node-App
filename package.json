@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "mocha server/**/*.test.js",
+        "test": " export NODE_ENV=test || set \"NODE_ENV=test\" && mocha server/**/*.test.js",
         "test-watch": "npx nodemon --exec \"npm test\""
     },
     "author": "Nosa Omorodion",
