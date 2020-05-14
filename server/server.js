@@ -101,7 +101,7 @@ app.delete("/todos/:id", (req, res) => {
 
 app.post("/users", (req, res) => {
     let body = _.pick(req.body, ['name', 'email', 'password']);
-    let user = new Todo(body);
+    const user = new User(body);
 
     user.save().then(
         () => {
