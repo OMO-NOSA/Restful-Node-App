@@ -2,27 +2,13 @@ const expect = require('expect');
 const request = require('supertest');
 const { ObjectID } = require('mongodb');
 
-
+const { todos, populateTodos } = require('./seed/seed');
 const { app } = require('./../server');
 const { Todo } = require('./../models/todo');
 
-const todos = [{
-        _id: new ObjectID(),
-        text: "First thing first",
-    },
-    {
-        _id: new ObjectID(),
-        text: "Pray about things",
-        completed: true,
-        completedAt: 33
-    }
-];
 
-beforeEach((done) => {
-    Todo.remove({}).then(() => {
-        return Todo.insertMany(todos);
-    }).then(() => done());
-});
+
+beforeEach(populateTodos);
 
 describe('POST /todos', () => {
     it('should create a new todo', (done) => {
