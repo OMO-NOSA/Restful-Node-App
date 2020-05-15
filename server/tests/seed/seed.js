@@ -1,5 +1,5 @@
 const { ObjectID } = require('mongodb');
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 const { Todo } = require('../../models/todo');
 const { User } = require('./../../models/user');
@@ -10,7 +10,7 @@ const users = [{
         _id: userOneId,
         email: 'andrewG@example.com',
         name: 'Andrew G',
-        password: 'uyuyuyu',
+        password: 'uyuyuyuj',
         tokens: [{
             accss: 'auth',
             token: jwt.sign({
@@ -23,10 +23,10 @@ const users = [{
         _id: userTwoId,
         email: 'andrewC@example.com',
         name: 'Andrew C',
-        password: 'uyuyuyu'
+        password: 'uyuyuyuj'
 
     }
-]
+];
 
 const todos = [{
         _id: new ObjectID(),
@@ -52,7 +52,7 @@ const populateUsers = (done) => {
         let userTwo = new User(users[1]).save();
 
         return Promise.all([userOne, userTwo])
-    }).then(() => done());
+    }).then(() => done()).catch((e) => done(e));
 };
 
 

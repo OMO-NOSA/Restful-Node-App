@@ -11,9 +11,10 @@ const {
 
 const { app } = require('./../server');
 const { Todo } = require('./../models/todo');
+const { User } = require('./../models/user');
 
 
-beforeEach(populateUsers);
+//beforeEach(populateUsers);
 beforeEach(populateTodos);
 
 
@@ -30,7 +31,7 @@ describe('POST /todos', () => {
             })
             .end((err, res) => {
                 if (err) {
-                    return done(err)
+                    return done(err);
                 }
 
                 Todo.find({
@@ -40,7 +41,7 @@ describe('POST /todos', () => {
                     expect(todos[0].text).toBe(text);
                     done();
                 }).catch((e) => done(e));
-            })
+            });
     });
 
     it('should not create a todo with invalid test data', (done) => {
@@ -57,7 +58,7 @@ describe('POST /todos', () => {
                     done();
                 }).catch((e) => done(e));
 
-            })
+            });
     });
 });
 
@@ -187,4 +188,85 @@ describe('PATCH /todos/:id', () => {
             })
             .end(done);
     })
+});
+
+
+describe('GET /users/me', () => {
+    it('should return users if authenticated', (done) => {
+        request(app)
+            .get('/users/me')
+            .set('x-auth', users[0].tokens[0].token)
+            .expect(200)
+            .expect((res) => {
+                expect(res.body._id).toBe(users[0]._id.toHexString());
+                expect(res.body.email).toBe(users[0].email);
+                expect(res.body.name).toBe(users[0].name);
+            })
+            .end(done);
+    });
+
+    it("should return users if authenticated", (done) => {
+        request(app)
+            .get('/users/me')
+            .expect(401)
+            .expect((res) => {
+                expect(res.body).toEqual({});
+            })
+            .end(done);
+    });
+});
+describe('POST /users', () => {
+    it('should create a user', (done) => {
+        let email = 'examp@email.com';
+        let name = 'Examp Man';
+        let password = 'Exam6666';
+
+        request(app)
+            .post('/users')
+            .send({
+                email,
+                password,
+                name
+            })
+            .expect(200)
+            .expect((res) => {
+                expect(res.headers['x-auth']).toExist();
+                expect(res.body._id).toExist();
+                expect(res.body.email).toBe(email);
+            })
+            .end((err) => {
+                if (err) {
+                    return done(err);
+                }
+
+                User.findOne({ email }).then((user) => {
+                    expect(user).toExist();
+                    expect(user.password).toNotBe(password);
+                    done();
+                });
+            });
+    });
+
+    it("should return validation errors if request is invalid", (done) => {
+        request(app)
+            .post('/users')
+            .send({
+                email: 'and',
+                password: 'tttt',
+                name: ''
+            })
+            .expect(400)
+            .end(done)
+    });
+
+    it("should not create user if email is in use", (done) => {
+        request(app)
+            .post('/users')
+            .send({
+                email: users[0].email,
+                password: 'Password45'
+            })
+            .expect(400)
+            .end(done)
+    });
 });
