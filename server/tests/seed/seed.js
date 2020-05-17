@@ -8,24 +8,36 @@ const userOneId = new ObjectID();
 const userTwoId = new ObjectID();
 const users = [{
         _id: userOneId,
-        email: 'andrewG@example.com',
-        name: 'Andrew G',
-        password: 'uyuyuyuj',
+        email: "andrewG@example.com",
+        name: "Andrew G",
+        password: "uyuyuyuj",
         tokens: [{
-            accss: 'auth',
-            token: jwt.sign({
-                _id: userOneId,
-                access: 'auth'
-            }, 'tty111').toString()
-        }]
+            accss: "auth",
+            token: jwt
+                .sign({
+                        _id: userOneId,
+                        access: "auth",
+                    },
+                    "tty111"
+                )
+                .toString(),
+        }, ],
     },
     {
         _id: userTwoId,
-        email: 'andrewC@example.com',
-        name: 'Andrew C',
-        password: 'uyuyuyuj'
-
-    }
+        email: "andrewC@example.com",
+        name: "Andrew C",
+        password: "uyuyuyuj",
+        tokens: [{
+            accss: "auth",
+            token: jwt.sign({
+                    _id: userTwoId,
+                    access: "auth",
+                },
+                "tty111"
+            ).toString(),
+        }, ],
+    },
 ];
 
 const todos = [{
