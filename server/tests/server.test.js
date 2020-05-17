@@ -134,7 +134,7 @@ describe('DELETE /todos/:id', () => {
 
         request(app)
             .delete(`/todos/${hexId}`)
-            .set("x-auth", users[1].tokens[1].token)
+            .set("x-auth", users[1].tokens[0].token)
             .expect(200)
             .expect((res) => {
                 expect(res.body.todo._id).toBe(hexId);
@@ -157,7 +157,7 @@ describe('DELETE /todos/:id', () => {
 
         request(app)
             .delete(`/todos/${hexId}`)
-            .set("x-auth", users[1].tokens[1].token)
+            .set("x-auth", users[1].tokens[0].token)
             .expect(404)
             .end((err, res) => {
                 if (err) {
@@ -177,7 +177,7 @@ describe('DELETE /todos/:id', () => {
 
         request(app)
             .delete(`/todos/${hexId}`)
-            .set("x-auth", users[1].tokens[1].token)
+            .set("x-auth", users[1].tokens[0].token)
             .expect(404)
             .end(done);
     });
@@ -189,7 +189,7 @@ describe('DELETE /todos/:id', () => {
     it('should return 404 if object id is invalid', (done) => {
         request(app)
             .delete("/todos/123abc")
-            .set("x-auth", users[1].tokens[1].token)
+            .set("x-auth", users[1].tokens[0].token)
             .expect(404)
             .end(done);
     });
@@ -200,17 +200,32 @@ describe('PATCH /todos/:id', () => {
         let text = 'Complete the format for report';
         request(app)
             .patch(`/todos/${hexId}`)
+            .set("x-auth", users[0].tokens[0].token)
             .send({
                 completed: true,
-                text
+                text,
             })
             .expect(200)
             .expect((res) => {
                 expect(res.body.todo.text).toBe(text);
                 expect(res.body.todo.completed).toBe(true);
-                expect(res.body.todo.completedAt).toBeA('number');
+                expect(res.body.todo.completedAt).toBeA("number");
             })
-            .end(done)
+            .end(done);
+    });
+
+    it("should not update the todo created by other users", (done) => {
+        let hexId = todos[0]._id.toHexString();
+        let text = "Complete the format for report";
+        request(app)
+            .patch(`/todos/${hexId}`)
+            .set("x-auth", users[1].tokens[0].token)
+            .send({
+                completed: true,
+                text,
+            })
+            .expect(404)
+            .end(done);
     });
 
     it('should clear completedAt when todo is not completed', (done) => {
@@ -218,6 +233,7 @@ describe('PATCH /todos/:id', () => {
         let text = "Complete the format for report for lanre";
         request(app)
             .patch(`/todos/${hexId}`)
+            .set("x-auth", users[1].tokens[0].token)
             .send({
                 completed: false,
                 text,
