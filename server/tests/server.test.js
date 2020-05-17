@@ -23,7 +23,8 @@ describe('POST /todos', () => {
         let text = 'Do something';
 
         request(app)
-            .post('/todos')
+            .post("/todos")
+            .set("x-auth", users[0].tokens[0].token)
             .send({ text })
             .expect(200)
             .expect((res) => {
@@ -35,38 +36,23 @@ describe('POST /todos', () => {
                 }
 
                 Todo.find({
-                    text
-                }).then((todos) => {
-                    expect(todos.length).toBe(1);
-                    expect(todos[0].text).toBe(text);
-                    done();
-                }).catch((e) => done(e));
+                        text,
+                    })
+                    .then((todos) => {
+                        expect(todos.length).toBe(1);
+                        expect(todos[0].text).toBe(text);
+                        done();
+                    })
+                    .catch((e) => done(e));
             });
     });
 
     it('should not create a todo with invalid test data', (done) => {
         request(app)
-            .post('/todos')
+            .post("/todos")
+            .set("x-auth", users[0].tokens[0].token)
             .send({})
             .expect(400)
-            .end((err, res) => {
-                if (err) {
-                    return done(err)
-                }
-                Todo.find().then((todos) => {
-                    expect(todos.length).toBe(2);
-                    done();
-                }).catch((e) => done(e));
-
-            });
-    });
-});
-
-describe('GET /todos', () => {
-    it('should get all todos', (done) => {
-        request(app)
-            .get('/todos')
-            .expect(200)
             .end((err, res) => {
                 if (err) {
                     return done(err);
@@ -74,6 +60,26 @@ describe('GET /todos', () => {
                 Todo.find()
                     .then((todos) => {
                         expect(todos.length).toBe(2);
+                        done();
+                    })
+                    .catch((e) => done(e));
+            });
+    });
+});
+
+describe('GET /todos', () => {
+    it('should get all todos', (done) => {
+        request(app)
+            .get("/todos")
+            .set("x-auth", users[0].tokens[0].token)
+            .expect(200)
+            .end((err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                Todo.find()
+                    .then((todos) => {
+                        expect(todos.length).toBe(1);
                         done();
                     })
                     .catch((e) => done(e));
@@ -330,6 +336,8 @@ describe('POST /users/login', () => {
 
 
 });
+
+
 describe('DELETE /users/me/token', () => {
     it('should remove auth token on logout', (done) => {
         request(app)

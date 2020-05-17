@@ -31,12 +31,14 @@ const users = [{
 const todos = [{
         _id: new ObjectID(),
         text: "First thing first",
+        _creator: userOneId
     },
     {
         _id: new ObjectID(),
         text: "Pray about things",
         completed: true,
-        completedAt: 33
+        completedAt: 33,
+        _creator: userTwoId
     }
 ];
 
