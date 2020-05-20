@@ -14,7 +14,7 @@ const { Todo } = require('./../models/todo');
 const { User } = require('./../models/user');
 
 
-//beforeEach(populateUsers);
+beforeEach(populateUsers);
 beforeEach(populateTodos);
 
 

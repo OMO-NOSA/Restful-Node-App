@@ -10,10 +10,10 @@ const userTwoId = new ObjectID();
 const users = [{
         _id: userOneId,
         email: "andrewG@example.com",
-        name: "Andrew G",
-        password: "uyuyuyuj",
+        name: "AndrewG",
+        password: "uyuY2uyuj",
         tokens: [{
-            accss: "auth",
+            access: "auth",
             token: jwt
                 .sign({
                         _id: userOneId,
@@ -25,10 +25,10 @@ const users = [{
     {
         _id: userTwoId,
         email: "andrewC@example.com",
-        name: "Andrew C",
-        password: "uyuyuyuj",
+        name: "AndrewC",
+        password: "uyuY2uyuj",
         tokens: [{
-            accss: "auth",
+            access: "auth",
             token: jwt.sign({
                     _id: userTwoId,
                     access: "auth",
