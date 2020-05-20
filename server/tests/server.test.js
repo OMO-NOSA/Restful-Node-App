@@ -13,6 +13,7 @@ const { app } = require('./../server');
 const { Todo } = require('./../models/todo');
 const { User } = require('./../models/user');
 
+console.log(todos);
 
 beforeEach(populateUsers);
 beforeEach(populateTodos);
