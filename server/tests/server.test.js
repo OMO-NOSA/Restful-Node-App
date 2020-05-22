@@ -74,17 +74,9 @@ describe('GET /todos', () => {
             .get("/todos")
             .set("x-auth", users[0].tokens[0].token)
             .expect(200)
-            .end((err, res) => {
-                if (err) {
-                    return done(err);
-                }
-                Todo.find()
-                    .then((todos) => {
-                        expect(todos.length).toBe(1);
-                        done();
-                    })
-                    .catch((e) => done(e));
-            });
+            .expect((res) => {
+                expect(res.body.todos.length).toBe(1);
+            }).end(done);
     });
 });
 
