@@ -14,18 +14,19 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.post('/todos', authenticate, (req, res) => {
-    const todo = new Todo({
-        text: req.body.text,
-        _creator: req.user._id
-    });
+app.post('/todos', authenticate,
+    (req, res) => {
+        const todo = new Todo({
+            text: req.body.text,
+            _creator: req.user._id
+        });
 
-    todo.save().then((doc) => {
-        res.send(doc);
-    }, (e) => {
-        res.status(400).send(e);
+        todo.save().then((doc) => {
+            res.send(doc);
+        }, (e) => {
+            res.status(400).send(e);
+        });
     });
-});
 
 app.get('/todos', authenticate, (req, res) => {
     Todo.find({
@@ -34,7 +35,7 @@ app.get('/todos', authenticate, (req, res) => {
         res.send({ todos })
     }, (e) => {
         res.status(404).send(e);
-    })
+    });
 });
 
 app.get('/todos/:id', authenticate, (req, res) => {

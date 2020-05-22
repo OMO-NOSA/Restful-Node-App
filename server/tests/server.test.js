@@ -37,7 +37,7 @@ describe('POST /todos', () => {
                 }
 
                 Todo.find({
-                        text,
+                        text
                     })
                     .then((todos) => {
                         expect(todos.length).toBe(1);

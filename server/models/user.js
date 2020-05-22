@@ -56,7 +56,7 @@ UserSchema.methods.generateAuthToken = function() {
     let access = 'auth';
     let token = jwt.sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET).toString();
 
-    user.tokens.concat({
+    user.tokens.push({
         access,
         token
     });
@@ -91,9 +91,9 @@ UserSchema.static.findByCredentials = function(email, password) {
                 } else {
                     reject();
                 }
-            })
-        })
-    })
+            });
+        });
+    });
 };
 
 UserSchema.statics.findByToken = function(token) {
@@ -111,7 +111,7 @@ UserSchema.statics.findByToken = function(token) {
         'tokens.token': token,
         'tokens.access': 'auth'
     });
-}
+};
 
 
 UserSchema.pre('save', function(next) {
@@ -122,7 +122,7 @@ UserSchema.pre('save', function(next) {
             bcrypt.hash(user.password, salt, (err, hash) => {
                 user.password = hash;
                 next();
-            })
+            });
         });
     } else {
         next();
