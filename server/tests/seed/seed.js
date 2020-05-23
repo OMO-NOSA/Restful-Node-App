@@ -9,17 +9,16 @@ const userOneId = new ObjectID();
 const userTwoId = new ObjectID();
 const users = [{
         _id: userOneId,
-        email: "andrewG@example.com",
-        name: "AndrewG",
+        email: "Nossy@example.com",
+        name: "Nossy C",
         password: "uyuY2uyuj",
         tokens: [{
             access: "auth",
-            token: jwt
-                .sign({
-                        _id: userOneId,
-                        access: "auth",
-                    },
-                    process.env.JWT_SECRET).toString()
+            token: jwt.sign({
+                    _id: userOneId,
+                    access: "auth",
+                },
+                process.env.JWT_SECRET).toString()
         }, ],
     },
     {
@@ -60,8 +59,8 @@ const populateTodos = (done) => {
 
 const populateUsers = (done) => {
     User.remove({}).then(() => {
-        let userOne = new User(users[0]).save();
-        let userTwo = new User(users[1]).save();
+        let userOne = new User(users[1]).save();
+        let userTwo = new User(users[0]).save();
 
         return Promise.all([userOne, userTwo])
     }).then(() => done()).catch((e) => done(e));
