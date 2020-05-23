@@ -45,7 +45,7 @@ app.get('/todos/:id', authenticate, (req, res) => {
             message: 'Id not Valid'
         })
     }
-    Todo.findByOne({
+    Todo.findOne({
             _id: id,
             _creator: req.user._id
         })

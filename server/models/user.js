@@ -56,7 +56,7 @@ UserSchema.methods.generateAuthToken = function() {
     let access = 'auth';
     let token = jwt.sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET).toString();
 
-    user.tokens.concat({
+    user.tokens.addToSet({
         access,
         token
     });
@@ -77,7 +77,7 @@ UserSchema.methods.removeToken = function(token) {
     });
 };
 
-UserSchema.static.findByCredentials = function(email, password) {
+UserSchema.statics.findByCredentials = function(email, password) {
     let User = this;
     return User.findOne({ email }).then((user) => {
         if (!user) {

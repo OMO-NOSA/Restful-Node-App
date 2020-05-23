@@ -328,8 +328,8 @@ describe('POST /users/login', () => {
         request(app)
             .post('/users/login')
             .send({
-                email: users[1].email,
-                password: users[1].password
+                email: users[0].email,
+                password: users[0].password
             })
             .expect(200)
             .expect((res) => {
@@ -341,8 +341,8 @@ describe('POST /users/login', () => {
                     return done(err);
                 }
 
-                User.findById(users[1]._id).then((user) => {
-                    expect(user.tokens[1].toInclude({
+                User.findById(users[0]._id).then((user) => {
+                    expect(user.tokens[0].toInclude({
                         access: 'auth',
                         token: res.headers['x-auth']
                     }));
@@ -356,8 +356,8 @@ describe('POST /users/login', () => {
         request(app)
             .post("/users/login")
             .send({
-                email: users[1].email,
-                password: users[1].password + '1',
+                email: users[0].email,
+                password: users[0].password + '1',
             })
             .expect(400)
             .expect((res) => {
@@ -368,7 +368,7 @@ describe('POST /users/login', () => {
                     return done(err);
                 }
 
-                User.findById(users[1]._id)
+                User.findById(users[0]._id)
                     .then((user) => {
                         expect(
                             user.tokens.length
