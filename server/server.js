@@ -14,6 +14,34 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+
+const swaggerUi = require('swagger-ui-express');
+const { specs } = require('./swagger');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs.default));
+
+/**
+ * @swagger
+ * /todos:
+ *   post:
+ *     tags:
+ *       — Todo
+ *     summary: This should create a new todo.
+ *     description: This route creates a todo for a particular user
+ *     consumes:
+ *       — application/json
+ *     parameters:
+ *       — name: body
+ *       in: body
+ *       schema:
+ *         type: object
+ *         properties:
+ *           text:
+ *           type: string
+ *     responses: 
+ *       200:
+ *         description: Receive back todos and todos IDs.
+ */
+
 app.post('/todos', authenticate,
     (req, res) => {
         const todo = new Todo({
@@ -155,6 +183,8 @@ app.delete('/users/me/token', authenticate, (req, res) => {
         res.status(400).send();
     });
 });
+
+
 
 app.listen(port, () =>
     console.log(`Server is listening at http://localhost:${port}`)
