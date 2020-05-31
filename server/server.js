@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { ObjectID } = require('mongodb');
 const _ = require('lodash');
+const path = require('path');
 
 require('./config/config');
 const { User } = require('./models/user');
@@ -17,7 +18,15 @@ app.use(bodyParser.json());
 
 const swaggerUi = require('swagger-ui-express');
 const { specs } = require('./swagger');
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs.default));
+//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs.default));
+
+app.use("/api-docs", swaggerUi.serve);
+app.get(
+    "/api-docs",
+    swaggerUi.setup(specs, {
+        explorer: true,
+    })
+);
 
 /**
  * @swagger
@@ -41,6 +50,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs.default));
  *       200:
  *         description: Receive back todos and todos IDs.
  */
+app.use(express.static(path.join(__dirname, '/public')));
+app.get("/swagger.json", function(req, res) {
+    res.setHeader("Content-Type", "application/json");
+    res.send(specs);
+});
 
 app.post('/todos', authenticate,
     (req, res) => {
