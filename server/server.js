@@ -30,6 +30,7 @@ app.get(
 
 /**
  * @swagger
+ * path:
  * /todos:
  *   post:
  *     tags:
@@ -50,11 +51,8 @@ app.get(
  *       200:
  *         description: Receive back todos and todos IDs.
  */
-app.use(express.static(path.join(__dirname, '/public')));
-app.get("/swagger.json", function(req, res) {
-    res.setHeader("Content-Type", "application/json");
-    res.send(specs);
-});
+
+
 
 app.post('/todos', authenticate,
     (req, res) => {

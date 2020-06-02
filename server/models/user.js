@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 const bcrypt = require('bcryptjs');
+
 /**
  * @swagger
  *  components:
@@ -23,6 +24,8 @@ const bcrypt = require('bcryptjs');
  *           name: Alexander
  *           email: fake@email.com
  */
+
+
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
