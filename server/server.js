@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const swaggerJsdoc = require("swagger-jsdoc");
 const { ObjectID } = require('mongodb');
 const _ = require('lodash');
 const path = require('path');
@@ -18,19 +19,15 @@ app.use(bodyParser.json());
 
 const swaggerUi = require('swagger-ui-express');
 const { specs } = require('./swagger');
-//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs.default));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-app.use("/api-docs", swaggerUi.serve);
-app.get(
-    "/api-docs",
-    swaggerUi.setup(specs, {
-        explorer: true,
-    })
-);
+app.get("/swagger.json", function(req, res) {
+    res.setHeader("Content-Type", "application/json");
+    res.send(specs);
+});
 
 /**
  * @swagger
- * path:
  * /todos:
  *   post:
  *     tags:
@@ -52,8 +49,6 @@ app.get(
  *         description: Receive back todos and todos IDs.
  */
 
-
-
 app.post('/todos', authenticate,
     (req, res) => {
         const todo = new Todo({
@@ -67,6 +62,27 @@ app.post('/todos', authenticate,
             res.status(400).send(e);
         });
     });
+/**
+ * @swagger
+ * /api/puppies/{id}:
+ *   get:
+ *     tags:
+ *       - Puppies
+ *     description: Returns a single puppy
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: Puppy's id
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: A single puppy
+ *         schema:
+ *           $ref: '#/definitions/Puppy'
+ */
 
 app.get('/todos', authenticate, (req, res) => {
     Todo.find({

@@ -1,7 +1,7 @@
 const swaggerJsdoc = require('swagger-jsdoc');
 const options = {
     swaggerDefinition: {
-        swagger: '3.0.0',
+        swagger: '2.0',
         info: {
             title: "Documented Todo APIs Definitions",
             version: "1.0.0",
@@ -17,10 +17,11 @@ const options = {
             }
         },
         servers: [{
-            url: "http://localhost:3000/api/v1"
+            url: "http://localhost:3000/api-docs/"
         }]
     },
-    apis: ["./server.js", "./models/user.js"],
+    apis: ['./docs/user.yaml', './server.js'],
+    //["./server.js", "./models/user.js"],
 };
 
 
