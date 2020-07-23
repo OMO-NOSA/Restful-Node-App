@@ -27,8 +27,8 @@
     },
     "devDependencies": {
         "connect": "^3.7.0",
-        "expect": "^21.1.0",
-        "mocha": "^7.1.1",
+        "expect": "^1.20.2",
+        "mocha": "^3.0.2",
         "rewire": "^2.5.2",
         "supertest": "^2.0.0"
     }
