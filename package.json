@@ -23,7 +23,7 @@
         "request": "^2.88.2",
         "swagger-jsdoc": "^4.0.0",
         "swagger-ui-express": "^4.1.4",
-        "validator": "^5.6.0"
+        "validator": "^13.7.0"
     },
     "devDependencies": {
         "connect": "^3.7.0",
